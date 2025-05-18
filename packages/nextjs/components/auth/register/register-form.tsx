@@ -1,58 +1,59 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Eye, EyeOff, Loader2 } from "lucide-react";
 
-import { Button } from "~~/components/ui/button"
-import { Input } from "~~/components/ui/input"
-import { Label } from "~~/components/ui/label"
+import { Button } from "~~/components/ui/button";
+import { Input } from "~~/components/ui/input";
+import { Label } from "~~/components/ui/label";
 
 export function RegistrationForm() {
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [error, setError] = useState<string | null>(null)
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [telegram, setTelegram] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError(null)
+    e.preventDefault();
+    setError(null);
 
     // Validación básica
     if (!name || !email || !password || !confirmPassword) {
-      setError("All fields are required")
-      return
+      setError("All fields are required");
+      return;
     }
 
     if (password !== confirmPassword) {
-      setError("Passwords do not match")
-      return
+      setError("Passwords do not match");
+      return;
     }
 
     if (password.length < 8) {
-      setError("Password must be at least 8 characters long")
-      return
+      setError("Password must be at least 8 characters long");
+      return;
     }
 
     try {
-      setIsLoading(true)
+      setIsLoading(true);
 
       // Simulación de registro
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Redirección después de registro exitoso
-      router.push("/dashboard")
+      router.push("/dashboard");
     } catch (error) {
-      console.error("Registration error:", error)
-      setError("Something went wrong. Please try again.")
+      console.error("Registration error:", error);
+      setError("Something went wrong. Please try again.");
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -98,6 +99,25 @@ export function RegistrationForm() {
         </div>
 
         <div>
+          <Label htmlFor="telegram" className="text-gray-300">
+            Telegram
+          </Label>
+          <div className="mt-1">
+            <Input
+              id="telegram"
+              name="telegram"
+              type="text"
+              autoComplete="telegram"
+              required
+              value={telegram}
+              onChange={(e) => setTelegram(e.target.value)}
+              className="block w-full appearance-none rounded-md border border-gray-300 bg-gray-50 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-gray-500 focus:outline-none focus:ring-gray-500 sm:text-sm"
+              placeholder="@username"
+            />
+          </div>
+        </div>
+
+        <div>
           <Label htmlFor="password" className="text-gray-300">
             Password
           </Label>
@@ -118,10 +138,16 @@ export function RegistrationForm() {
               className="absolute inset-y-0 right-0 flex items-center pr-3"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? <EyeOff className="h-4 w-4 text-gray-500" /> : <Eye className="h-4 w-4 text-gray-500" />}
+              {showPassword ? (
+                <EyeOff className="h-4 w-4 text-gray-500" />
+              ) : (
+                <Eye className="h-4 w-4 text-gray-500" />
+              )}
             </button>
           </div>
-          <p className="mt-1 text-xs text-gray-500">Password must be at least 8 characters long</p>
+          <p className="mt-1 text-xs text-gray-500">
+            Password must be at least 8 characters long
+          </p>
         </div>
 
         <div>
@@ -157,5 +183,5 @@ export function RegistrationForm() {
         </Button>
       </div>
     </form>
-  )
+  );
 }
